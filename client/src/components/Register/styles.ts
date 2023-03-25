@@ -170,6 +170,13 @@ export const Form = styled.form<IForm>`
   }
   & div {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    & span {
+      font-size: 14px;
+      font-weight: 400;
+    }
     & svg,
     path {
       width: 20px;
