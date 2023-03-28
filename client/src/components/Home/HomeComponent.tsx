@@ -24,6 +24,7 @@ import { RiFileTransferFill, RiBarcodeFill } from 'react-icons/ri'
 import logo from '@/img/logo.png'
 import { useEffect, useState, useContext, useMemo, useCallback } from 'react'
 import { Card } from './components/card/Card'
+import { ConfigAccount } from '../ConfigAccount/ConfigAccount'
 import Slider from 'react-slick'
 import { AuthContext, ITransactions, IUserData } from '@/context/userContext'
 import { useNavigate, Link } from 'react-router-dom'
@@ -36,6 +37,7 @@ export function HomeComponent() {
   const [visibilityMoney, setVisibilityMoney] = useState(true)
   const [menu, setMenu] = useState(true)
   const [displayMenu, setDisplayMenu] = useState(false)
+  const [visibilityConfigAccount, setVisibilityConfigAccount] = useState(false)
   const [data, setData] = useState<IUserData>({
     name: '',
     email: '',
@@ -156,9 +158,13 @@ export function HomeComponent() {
                 <span>Meus dados</span>
               </div>
 
-              <div>
+              <div
+                onClick={() => {
+                  setVisibilityConfigAccount(true)
+                }}
+              >
                 <AiFillSetting size={18} />
-                <span>Configurar conta</span>
+                <span>alterar senha da conta</span>
               </div>
               <Link to="/about">
                 <div>
@@ -194,6 +200,13 @@ export function HomeComponent() {
             </ContainerMoneyStatus>
           </section>
         </Main>
+        <aside>
+          {visibilityConfigAccount && (
+            <ConfigAccount
+              fnVisibilityConfigAccount={setVisibilityConfigAccount}
+            />
+          )}
+        </aside>
       </Content>
     </Container>
   )
