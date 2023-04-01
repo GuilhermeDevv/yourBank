@@ -9,7 +9,16 @@ export class ListUserService {
       return { message: 'erro, usuário nao encontrado.', status: 404 }
     }
     if (response.email === data.email && response.password === data.password) {
-      return { message: '', status: 204 }
+      const { email, name, balance, receivedTransactions, sentTransactions } =
+        response
+      const userData = {
+        email,
+        name,
+        balance,
+        receivedTransactions,
+        sentTransactions,
+      }
+      return { message: userData, status: 200 }
     }
     return { message: 'Senha invalida!', status: 401 }
   }
