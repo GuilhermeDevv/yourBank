@@ -6,6 +6,6 @@
   "tabWidth": 2,
   "requireConfig": false,
   "useTabs": false,
-  "trailingComma": "es5",
-  "semi": false
+  "semi": false,
+  "trailingComma": "all"
 }
