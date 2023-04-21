@@ -33,6 +33,25 @@ export class TransactionUserServices {
     const newSenderBalance = senderAccount.balance - amountNumber
     const newReceiverBalance = receiverAccount.balance + amountNumber
 
+    const responseTransaction = await this.repository.transaction({
+      sender: senderAccount,
+      receiver: receiverAccount,
+      amount: amountNumber,
+    })
+
+    if (responseTransaction) {
+      this.repository.transactionLog({
+        message: 'transferência feita com sucesso ',
+        status: '200',
+        transactionId: responseTransaction.id,
+      })
+    } else {
+      return {
+        message: 'Erro interno!',
+        status: 500,
+      }
+    }
+
     await this.repository.update(
       { balance: newSenderBalance },
       senderAccount.email,
