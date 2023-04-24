@@ -16,7 +16,6 @@ export class CreateUserServices {
       return { message: `${responseValidate.error.formErrors}`, status: 400 }
     }
     const response = await this.repository.findByEmail(email)
-    console.log(response)
     if (response) {
       return { message: 'usuário existente ', status: 402 }
     }
