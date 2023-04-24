@@ -67,6 +67,13 @@ export const Form = styled.form`
   }
   & div {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    & span {
+      font-size: 12px;
+      font-weight: 400;
+    }
     & svg,
     path {
       width: 20px;
