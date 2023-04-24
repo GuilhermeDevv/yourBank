@@ -14,10 +14,10 @@ interface TransactionData {
 }
 class UserController {
   async getUser(request: FastifyRequest, reply: FastifyReply) {
-    const { email } = <User>request.params
+    const data = <User>request.body
     const repository = new PrismaUserRepository()
     const listUserService = new ListUserService(repository)
-    const { message, status } = await listUserService.execute(email)
+    const { message, status } = await listUserService.execute(data)
     reply.status(status).send({ message })
   }
 

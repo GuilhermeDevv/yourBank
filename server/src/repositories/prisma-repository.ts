@@ -23,4 +23,48 @@ export class PrismaUserRepository implements IUserRepository {
 
     return response.count !== 0
   }
+
+  async transaction(data: { sender: User; receiver: User; amount: number }) {
+    const response = await prisma.transaction
+      .create({
+        data: {
+          amount: data.amount,
+          sender: {
+            connect: {
+              email: data.sender.email,
+            },
+          },
+          receiver: {
+            connect: {
+              email: data.receiver.email,
+            },
+          },
+        },
+      })
+      .then((data) => data)
+      .catch((err) => err)
+
+    return response
+  }
+
+  async transactionLog(data: {
+    message: string
+    transactionId: number
+    status: string
+  }) {
+    return await prisma.transactionLog
+      .create({
+        data: {
+          message: data.message,
+          transactionId: data.transactionId,
+          status: data.status,
+        },
+      })
+      .then(() => {
+        return true
+      })
+      .catch(() => {
+        return false
+      })
+  }
 }
