@@ -1,4 +1,4 @@
-import HomeComponent from '@/components/Home/HomeComponent'
+import { HomeComponent } from '@/components/Home/HomeComponent'
 
 function Home() {
   return <HomeComponent />
