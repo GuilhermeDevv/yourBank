@@ -18,62 +18,101 @@ import {
 import { MdPix, MdOutlineAttachMoney } from 'react-icons/md'
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr'
 import { FaFileAlt, FaUser } from 'react-icons/fa'
-import { FiSliders } from 'react-icons/fi'
 import { BiMenu } from 'react-icons/bi'
 import { IoMdClose } from 'react-icons/io'
 import { RiFileTransferFill, RiBarcodeFill } from 'react-icons/ri'
 import logo from '@/img/logo.png'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext, useMemo, useCallback } from 'react'
 import { Card } from './components/card/Card'
 import Slider from 'react-slick'
+import { AuthContext, ITransactions, IUserData } from '@/context/userContext'
+import { useNavigate, Link } from 'react-router-dom'
+import { formatCurrency } from '@/utils/formatMoney'
+import { formatISODate } from '@/utils/formatDate'
 
-function HomeComponent() {
+export function HomeComponent() {
+  const navigate = useNavigate()
+  const { userData, authorized } = useContext(AuthContext)
   const [visibilityMoney, setVisibilityMoney] = useState(true)
   const [menu, setMenu] = useState(true)
   const [displayMenu, setDisplayMenu] = useState(false)
+  const [data, setData] = useState<IUserData>({
+    name: '',
+    email: '',
+    balance: '',
+  })
+  const [transaction, setTransaction] = useState<ITransactions[]>([
+    {
+      amount: 0,
+      id: 0,
+      receiver: { name: '', email: '' },
+      logs: [{ createdAt: '' }],
+    },
+  ])
   useEffect(() => {
-    setTimeout(() => {
-      setDisplayMenu(true)
-    }, 1200)
+    if (authorized) {
+      setData(userData)
+      const { receivedTransactions, sentTransactions } = userData
+      if (receivedTransactions && sentTransactions) {
+        // @ts-ignore
+        setTransaction([...sentTransactions, ...receivedTransactions])
+      }
+      setTimeout(() => {
+        setDisplayMenu(true)
+      }, 1200)
+    } else {
+      navigate('/login')
+    }
   }, [])
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    arrows: true,
-    prevArrow: (
-      <button className="slick-prev">
-        <GrFormPrevious size={40} />
-      </button>
-    ),
-    nextArrow: (
-      <button className="slick-next">
-        <GrFormNext size={40} />
-      </button>
-    ),
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3.5,
-          slidesToScroll: 1,
-          infinite: false,
-          dots: false,
+  const settings = useMemo(
+    () => ({
+      dots: false,
+      infinite: false,
+      speed: 500,
+      arrows: true,
+      prevArrow: (
+        <button className="slick-prev">
+          <GrFormPrevious size={40} />
+        </button>
+      ),
+      nextArrow: (
+        <button className="slick-next">
+          <GrFormNext size={40} />
+        </button>
+      ),
+      slidesToShow: 5,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3.5,
+            slidesToScroll: 1,
+            infinite: false,
+            dots: false,
+          },
         },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2.5,
-          slidesToScroll: 1,
-          infinite: false,
-          dots: false,
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2.5,
+            slidesToScroll: 1,
+            infinite: false,
+            dots: false,
+          },
         },
-      },
-    ],
-  }
+      ],
+    }),
+    [],
+  )
+
+  const handleVisibilityMoney = useCallback(() => {
+    setVisibilityMoney((prev) => !prev)
+  }, [])
+
+  const handleMenu = useCallback(() => {
+    setMenu((prev) => !prev)
+  }, [])
 
   return (
     <Container>
@@ -83,30 +122,19 @@ function HomeComponent() {
           <button>Sair</button>
         </Header>
         <InfoUser visibilityMoney={visibilityMoney}>
-          <span>Olá, {'Guilherme'}</span>
-          <span>Saldo: {''}</span>
+          <span>Olá, {data && data.name}</span>
+          <span>Saldo:</span>
           <div>
-            <strong> Ta duro! </strong>
+            <strong>{formatCurrency(data.balance)} </strong>
             {visibilityMoney ? (
-              <AiOutlineEye
-                size={22}
-                onClick={() => {
-                  setVisibilityMoney((prev) => !prev)
-                }}
-              />
+              <AiOutlineEye size={22} onClick={handleVisibilityMoney} />
             ) : (
               <AiOutlineEyeInvisible
                 size={22}
-                onClick={() => {
-                  setVisibilityMoney((prev) => !prev)
-                }}
+                onClick={handleVisibilityMoney}
               />
             )}
-            <Menu
-              onClick={() => {
-                setMenu((prev) => !prev)
-              }}
-            >
+            <Menu onClick={handleMenu}>
               {menu ? <BiMenu size={40} /> : <IoMdClose size={40} />}
             </Menu>
           </div>
@@ -127,89 +155,42 @@ function HomeComponent() {
                 <FaUser size={18} />
                 <span>Meus dados</span>
               </div>
-              <div>
-                <FiSliders size={18} />
-                <span>Segurança</span>
-              </div>
-              <div>
-                <MdPix size={18} />
-                <span>Configurar chave pix</span>
-              </div>
+
               <div>
                 <AiFillSetting size={18} />
                 <span>Configurar conta</span>
               </div>
-              <div>
-                <FaFileAlt size={18} />
-                <span>Sobre</span>
-              </div>
+              <Link to="/about">
+                <div>
+                  <FaFileAlt size={18} />
+                  <span>Sobre</span>
+                </div>
+              </Link>
             </ContentInfoUser>
             <ContainerMoneyStatus>
-              <MoneyStatus>
-                <div>
-                  <MdPix size={18} />
-                  <h3>transferência via pix</h3>
-                  <span></span>
-                  <h6>13/04/2023</h6>
-                </div>
-                <div>
-                  <span></span>
-                  <h3>R$ 14.200,36</h3>
-                </div>
-                <span>TransferWise</span>
-              </MoneyStatus>
-              <MoneyStatus>
-                <div>
-                  <MdPix size={18} />
-                  <h3>transferência via pix</h3>
-                  <span></span>
-                  <h6>12/04/2023</h6>
-                </div>
-                <div>
-                  <span></span>
-                  <h3>R$ 968,32</h3>
-                </div>
-                <span>TransferWise</span>
-              </MoneyStatus>
-              <MoneyStatus>
-                <div>
-                  <MdPix size={18} />
-                  <h3>transferência via pix</h3>
-                  <span></span>
-                  <h6>10/04/2023</h6>
-                </div>
-                <div>
-                  <span></span>
-                  <h3>R$ 9.968,32</h3>
-                </div>
-                <span>TransferWise</span>
-              </MoneyStatus>
-              <MoneyStatus>
-                <div>
-                  <MdPix size={18} />
-                  <h3>transferência via pix</h3>
-                  <span></span>
-                  <h6>06/02/2023</h6>
-                </div>
-                <div>
-                  <span></span>
-                  <h3>R$ 5.258,32</h3>
-                </div>
-                <span>TransferWise</span>
-              </MoneyStatus>
-              <MoneyStatus>
-                <div>
-                  <MdPix size={18} />
-                  <h3>transferência via pix</h3>
-                  <span></span>
-                  <h6>29/03/2023</h6>
-                </div>
-                <div>
-                  <span></span>
-                  <h3>R$ 500,00</h3>
-                </div>
-                <span>TransferWise</span>
-              </MoneyStatus>
+              {[...transaction].reverse().map((v, i) => {
+                return (
+                  <MoneyStatus key={i} color={v.receiver ? 'red' : 'green'}>
+                    <div>
+                      <MdPix size={18} />
+                      <h3>transferência via pix</h3>
+                      <span></span>
+                      <h6>{formatISODate(v.logs[0].createdAt)}</h6>
+                    </div>
+                    <div>
+                      <span />
+                      <h3>{formatCurrency(String(v.amount))}</h3>
+                    </div>
+                    <span>
+                      {v.receiver
+                        ? `voce enviou para ${v.receiver.name}`
+                        : v.sender
+                        ? `voce recebeu de ${v.sender.name}`
+                        : 'Transação desconhecida'}
+                    </span>
+                  </MoneyStatus>
+                )
+              })}
             </ContainerMoneyStatus>
           </section>
         </Main>
@@ -217,5 +198,3 @@ function HomeComponent() {
     </Container>
   )
 }
-
-export default HomeComponent
