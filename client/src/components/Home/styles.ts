@@ -9,6 +9,9 @@ interface IContentInfoUser {
   visibilityMenu: boolean
   displayLoadMenu: boolean
 }
+interface IMoneyStatus {
+  color: string
+}
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
@@ -182,12 +185,12 @@ export const ContainerMoneyStatus = styled.div`
     justify-content: center !important;
   }
 `
-export const MoneyStatus = styled.aside`
+export const MoneyStatus = styled.aside<IMoneyStatus>`
   display: flex;
   flex-direction: column;
   padding: 21px;
   border-radius: 10px;
-  max-width: 365px;
+  max-width: 410px;
   width: 100%;
   height: 100%;
   background-color: #09090b;
@@ -222,7 +225,7 @@ export const MoneyStatus = styled.aside`
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background-color: green;
+      background-color: ${({ color }) => color};
       margin-right: 6px;
     }
     & h3 {
@@ -234,7 +237,7 @@ export const MoneyStatus = styled.aside`
     font-size: 16px;
     font-weight: 400;
     text-align: center;
-    text-transform: capitalize;
+    text-transform: uppercase;
   }
 `
 export const ContentInfoUser = styled.nav<IContentInfoUser>`
