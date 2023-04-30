@@ -3,6 +3,7 @@ import Access from '@/pages/Access/Access'
 import RegisterOrLogin from '@/pages/RegisterOrLogin/RegisterOrLogin'
 import Login from '@/pages/Login/Login'
 import Home from '@/pages/Home/Home'
+import About from '@/pages/About/About'
 
 function Routes() {
   return (
@@ -11,6 +12,7 @@ function Routes() {
       <Route path="/acesso" element={<RegisterOrLogin />} />
       <Route path="/login" element={<Login />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/about" element={<About />} />
       <Route path="*" element={<Navigate to="/" />} />
     </RoutePage>
   )
