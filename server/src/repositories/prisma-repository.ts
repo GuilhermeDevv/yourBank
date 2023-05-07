@@ -5,10 +5,46 @@ export interface IUpdate {
   dataAtt: Partial<User>
   filter: string
 }
+interface IUser {
+  id: string
+  name: string
+  email: string
+  password: string
+  balance: number
+  sentTransactions: []
+  receivedTransactions: []
+}
 export class PrismaUserRepository implements IUserRepository {
   async findByEmail(email: string) {
-    const response = await prisma.user.findUnique({ where: { email } })
-    return response
+    const response = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        receivedTransactions: {
+          include: {
+            sender: {
+              select: {
+                name: true,
+                email: true,
+              },
+            },
+            logs: true,
+          },
+        },
+        sentTransactions: {
+          include: {
+            receiver: {
+              select: {
+                name: true,
+                email: true,
+              },
+            },
+            logs: true,
+          },
+        },
+      },
+    })
+
+    return response as IUser
   }
 
   async create(data: { name: string; password: string; email: string }) {
@@ -25,25 +61,26 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   async transaction(data: { sender: User; receiver: User; amount: number }) {
-    const response = await prisma.transaction
-      .create({
-        data: {
-          amount: data.amount,
-          sender: {
-            connect: {
-              email: data.sender.email,
-            },
-          },
-          receiver: {
-            connect: {
-              email: data.receiver.email,
-            },
+    const response = await prisma.transaction.create({
+      data: {
+        amount: data.amount,
+        sender: {
+          connect: {
+            email: data.sender.email,
           },
         },
-      })
-      .then((data) => data)
-      .catch((err) => err)
-
+        receiver: {
+          connect: {
+            email: data.receiver.email,
+          },
+        },
+      },
+      include: {
+        logs: { select: { createdAt: true } },
+        sender: { include: { sentTransactions: true } },
+        receiver: { include: { receivedTransactions: true } },
+      },
+    })
     return response
   }
 

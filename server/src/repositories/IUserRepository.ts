@@ -1,9 +1,22 @@
-import { User } from '@prisma/client'
+interface IUser {
+  id: string
+  name: string
+  email: string
+  password: string
+  balance: number
+  sentTransactions: []
+  receivedTransactions: []
+}
+
 interface IUserRepository {
-  findByEmail(email: string): Promise<User | null>
+  findByEmail(email: string): Promise<IUser | null>
   create(data: { name: string; password: string; email: string }): Promise<void>
-  update(data: Partial<User>, email: string): Promise<boolean>
-  transaction(data: { sender: User; receiver: User; amount: number }): Promise<{
+  update(data: Partial<IUser>, email: string): Promise<boolean>
+  transaction(data: {
+    sender: IUser
+    receiver: IUser
+    amount: number
+  }): Promise<{
     id: number
     senderId: string
     receiverId: string
