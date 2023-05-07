@@ -71,7 +71,7 @@ export const Form = styled.form`
     flex-direction: column;
     align-items: center;
     & span {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 400;
     }
     & svg,
