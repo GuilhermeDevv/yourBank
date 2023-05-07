@@ -2,12 +2,12 @@ import styled from 'styled-components'
 interface IMyPicture {
   img: string
 }
-export const Container = styled.div`
+export const Container = styled.section`
   background-color: #000;
   width: 100%;
   min-height: 100vh;
 `
-export const Content = styled.div`
+export const Content = styled.main`
   inset: 0;
   margin: 0 auto;
   min-height: 100%;
