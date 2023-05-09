@@ -127,7 +127,9 @@ export function HomeComponent() {
           <span>Olá, {data && data.name}</span>
           <span>Saldo:</span>
           <div>
-            <strong>{formatCurrency(data.balance)} </strong>
+            <strong>
+              R$ {visibilityMoney ? '**********' : formatCurrency(data.balance)}{' '}
+            </strong>
             {visibilityMoney ? (
               <AiOutlineEye size={22} onClick={handleVisibilityMoney} />
             ) : (

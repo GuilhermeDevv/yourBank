@@ -87,20 +87,6 @@ export const InfoUser = styled.aside<IInfoUser>`
       position: relative;
       font-size: 22px;
       font-weight: 400;
-      &::after {
-        content: '';
-        transform: translateX(
-          ${({ visibilityMoney }) => (visibilityMoney ? '0%' : '-200px')}
-        );
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        transition: all 1s;
-        border-radius: 6px;
-        background-color: #000;
-      }
     }
   }
 `
