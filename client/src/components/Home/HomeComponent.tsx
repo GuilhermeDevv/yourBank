@@ -30,6 +30,7 @@ import { AuthContext, ITransactions, IUserData } from '@/context/userContext'
 import { useNavigate, Link } from 'react-router-dom'
 import { formatCurrency } from '@/utils/formatMoney'
 import { formatISODate } from '@/utils/formatDate'
+import { UserDataAccount } from '../UserDataAccount/UserDataAccount'
 
 export function HomeComponent() {
   const navigate = useNavigate()
@@ -38,6 +39,8 @@ export function HomeComponent() {
   const [menu, setMenu] = useState(true)
   const [displayMenu, setDisplayMenu] = useState(false)
   const [visibilityConfigAccount, setVisibilityConfigAccount] = useState(false)
+  const [visibilityDataUserAccount, setVisibilityDataUserAccount] =
+    useState(false)
   const [data, setData] = useState<IUserData>({
     name: '',
     email: '',
@@ -155,7 +158,11 @@ export function HomeComponent() {
               visibilityMenu={menu}
               displayLoadMenu={displayMenu}
             >
-              <div>
+              <div
+                onClick={() => {
+                  setVisibilityDataUserAccount(true)
+                }}
+              >
                 <FaUser size={18} />
                 <span>Meus dados</span>
               </div>
@@ -206,6 +213,11 @@ export function HomeComponent() {
           {visibilityConfigAccount && (
             <ConfigAccount
               fnVisibilityConfigAccount={setVisibilityConfigAccount}
+            />
+          )}
+          {visibilityDataUserAccount && (
+            <UserDataAccount
+              fnVisibilityDataUserAccount={setVisibilityDataUserAccount}
             />
           )}
         </aside>
