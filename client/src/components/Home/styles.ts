@@ -18,7 +18,7 @@ export const Container = styled.div`
   background-color: #000;
 `
 export const Content = styled.div`
-  animation: 1s ease grow;
+  animation: 1.2s ease grow;
   @keyframes grow {
     from {
       transform: scale(0);
@@ -276,4 +276,8 @@ export const ContentInfoUser = styled.nav<IContentInfoUser>`
       transform: translateX(10px);
     }
   }
+`
+export const PixContainer = styled.div`
+  max-width: fit-content;
+  height: fit-content;
 `
