@@ -112,7 +112,7 @@ export function TransferMoney({
             <div>
               <input
                 type="text"
-                placeholder="Para quem deseja enviar?"
+                placeholder="E-mail de quem vai receber?"
                 {...register('email')}
               />
               <p>{errors.email?.message}</p>
