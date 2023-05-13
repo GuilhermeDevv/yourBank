@@ -5,6 +5,9 @@ interface ILogo {
 interface IContent {
   animation: boolean
 }
+interface IAside {
+  animation: boolean
+}
 export const Container = styled.main`
   width: 100%;
   height: 100vh;
@@ -115,4 +118,17 @@ export const Logo = styled.div<ILogo>`
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
+`
+export const Aside = styled.aside<IAside>`
+  width: 100%;
+  height: 100%;
+  animation: ${({ animation }) => (animation ? 'grow' : '')} 1s ease forwards;
+  @keyframes grow {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
 `

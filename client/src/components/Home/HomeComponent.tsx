@@ -9,6 +9,7 @@ import {
   Main,
   Menu,
   MoneyStatus,
+  PixContainer,
 } from './styles'
 import {
   AiOutlineEyeInvisible,
@@ -31,6 +32,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { formatCurrency } from '@/utils/formatMoney'
 import { formatISODate } from '@/utils/formatDate'
 import { UserDataAccount } from '../UserDataAccount/UserDataAccount'
+import { TransferMoney } from '../TransferMoney/TransferMoney'
 
 export function HomeComponent() {
   const navigate = useNavigate()
@@ -39,6 +41,7 @@ export function HomeComponent() {
   const [menu, setMenu] = useState(true)
   const [displayMenu, setDisplayMenu] = useState(false)
   const [visibilityConfigAccount, setVisibilityConfigAccount] = useState(false)
+  const [visibilityTransferMoney, setVisibilityTransferMoney] = useState(false)
   const [visibilityDataUserAccount, setVisibilityDataUserAccount] =
     useState(false)
   const [data, setData] = useState<IUserData>({
@@ -68,7 +71,7 @@ export function HomeComponent() {
     } else {
       navigate('/login')
     }
-  }, [])
+  }, [userData])
   const settings = useMemo(
     () => ({
       dots: false,
@@ -148,7 +151,13 @@ export function HomeComponent() {
         </InfoUser>
         <Main>
           <Slider {...settings}>
-            <Card name="Área pix" Icon={MdPix} />
+            <PixContainer
+              onClick={() => {
+                setVisibilityTransferMoney((prev) => !prev)
+              }}
+            >
+              <Card name="Área pix" Icon={MdPix} />
+            </PixContainer>
             <Card name="Transferir" Icon={RiFileTransferFill} />
             <Card name="Empréstimo" Icon={MdOutlineAttachMoney} />
             <Card name="Pagar Boleto" Icon={RiBarcodeFill} />
@@ -183,7 +192,7 @@ export function HomeComponent() {
               </Link>
             </ContentInfoUser>
             <ContainerMoneyStatus>
-              {[...transaction].reverse().map((v, i) => {
+              {[...transaction].map((v, i) => {
                 return (
                   <MoneyStatus key={i} color={v.receiver ? 'red' : 'green'}>
                     <div>
@@ -218,6 +227,11 @@ export function HomeComponent() {
           {visibilityDataUserAccount && (
             <UserDataAccount
               fnVisibilityDataUserAccount={setVisibilityDataUserAccount}
+            />
+          )}
+          {visibilityTransferMoney && (
+            <TransferMoney
+              visibilityTransferMoney={setVisibilityTransferMoney}
             />
           )}
         </aside>
