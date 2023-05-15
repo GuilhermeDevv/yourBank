@@ -17,7 +17,7 @@ export class CreateUserServices {
     }
     const response = await this.repository.findByEmail(email)
     if (response) {
-      return { message: 'usuário existente ', status: 402 }
+      return { message: 'usuário existente ', status: 409 }
     }
     await this.repository.create({ email, password, name })
     return { message: 'usuário criado com sucesso', status: 200 }
