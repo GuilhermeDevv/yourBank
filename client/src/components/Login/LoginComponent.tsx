@@ -1,6 +1,14 @@
-import React, { useCallback, useContext, useState } from 'react'
-import { Aside, Container, Content, Form, Logo } from './styles'
-import { MdEmail } from 'react-icons/md'
+import { useCallback, useContext, useState } from 'react'
+import {
+  Aside,
+  Container,
+  ContainerInput,
+  Content,
+  Form,
+  Icon,
+  Logo,
+} from './styles'
+import { MdEmail, MdVisibility, MdVisibilityOff } from 'react-icons/md'
 import { IoMdLock } from 'react-icons/io'
 import logo from '@/img/logo.png'
 import { useNavigate } from 'react-router-dom'
@@ -27,6 +35,7 @@ axios.defaults.baseURL = 'http://localhost:3333/user'
 export function LoginComponent() {
   const { setAuthorized, setUserData } = useContext(AuthContext)
   const [animation, setAnimation] = useState(true)
+  const [visibilityPassword, setVisibilityPassword] = useState(true)
   const navigate = useNavigate()
   const [visibilityCardStatus, setVisibilityCardStatus] =
     useState<boolean>(false)
@@ -49,6 +58,8 @@ export function LoginComponent() {
         .then((response) => {
           setAuthorized((prev) => !prev)
           setUserData(response.data.message)
+          // eslint-disable-next-line no-undef
+          localStorage.setItem('user', JSON.stringify(response.data.message))
           setTextCard(
             `Login efetuado com sucesso, seja bem vindo ${response.data.message.name}.`,
           )
@@ -89,20 +100,37 @@ export function LoginComponent() {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Logo Url_Logo={logo} />
           <h1>ACESSAR SUA CONTA</h1>
-          <div>
+          <ContainerInput>
             <input type="text" placeholder="E-mail" {...register('email')} />
             <span>{errors.email?.message}</span>
-            <MdEmail size={18} />
-          </div>
-          <div>
+            <Icon>
+              <MdEmail size={18} />
+            </Icon>
+          </ContainerInput>
+          <ContainerInput>
             <input
-              type="password"
+              type={visibilityPassword ? 'password' : 'text'}
               placeholder="Senha"
               {...register('password')}
             />
             <span>{errors.password?.message}</span>
-            <IoMdLock size={18} />
-          </div>
+            <Icon>
+              <IoMdLock size={18} />
+            </Icon>
+            <Icon
+              onClick={() => {
+                setVisibilityPassword((prev) => !prev)
+              }}
+            >
+              <div className="visibility">
+                {visibilityPassword ? (
+                  <MdVisibility size={18} />
+                ) : (
+                  <MdVisibilityOff size={18} />
+                )}
+              </div>
+            </Icon>
+          </ContainerInput>
           <button type="submit">ENTRAR</button>
         </Form>
       </Content>

@@ -68,38 +68,6 @@ export const Form = styled.form`
     color: #ff3a5e;
     text-align: center;
   }
-  & div {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    & span {
-      font-size: 14px;
-      font-weight: 400;
-    }
-    & svg,
-    path {
-      width: 20px;
-      height: 20px;
-      position: absolute;
-      left: 8px;
-      top: 8px;
-      color: #09090b;
-    }
-    & input {
-      background-color: transparent;
-      border: none;
-      outline: none;
-      background-color: white;
-      color: #101013;
-      font-weight: bold;
-      padding: 10px 35px;
-      border-radius: 10px;
-      &::placeholder {
-        color: #09090b;
-      }
-    }
-  }
   & button {
     border: solid 1px #ff3a5e;
     background-color: #ff3a5e;
@@ -111,6 +79,50 @@ export const Form = styled.form`
     font-weight: 400;
   }
 `
+export const ContainerInput = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & span {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  & input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    background-color: white;
+    color: #101013;
+    font-weight: bold;
+    padding: 10px 35px;
+    border-radius: 10px;
+    &::placeholder {
+      color: #09090b;
+    }
+  }
+`
+export const Icon = styled.div`
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  top: 10px;
+
+  & svg,
+  path {
+    position: relative;
+    left: -90px;
+    color: black;
+  }
+  .visibility {
+    position: relative;
+    top: -1px;
+    right: -180px;
+  }
+`
+
 export const Logo = styled.div<ILogo>`
   width: 200px;
   height: 150px;
