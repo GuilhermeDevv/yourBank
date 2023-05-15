@@ -36,7 +36,11 @@ import { TransferMoney } from '../TransferMoney/TransferMoney'
 
 export function HomeComponent() {
   const navigate = useNavigate()
-  const { userData, authorized } = useContext(AuthContext)
+  const { userData, authorized, setUserData } = useContext(AuthContext)
+  const [userLocalStorage] = useState(
+    // eslint-disable-next-line no-undef
+    JSON.parse(localStorage.getItem('user')!),
+  )
   const [visibilityMoney, setVisibilityMoney] = useState(true)
   const [menu, setMenu] = useState(true)
   const [displayMenu, setDisplayMenu] = useState(false)
@@ -48,6 +52,7 @@ export function HomeComponent() {
     name: '',
     email: '',
     balance: '',
+    password: '',
   })
   const [transaction, setTransaction] = useState<ITransactions[]>([
     {
@@ -68,10 +73,18 @@ export function HomeComponent() {
       setTimeout(() => {
         setDisplayMenu(true)
       }, 1200)
+    } else if (userLocalStorage) {
+      setData(userLocalStorage)
+      setUserData(userLocalStorage)
+      const { receivedTransactions, sentTransactions } = userLocalStorage
+      if (receivedTransactions && sentTransactions) {
+        // @ts-ignore
+        setTransaction([...sentTransactions, ...receivedTransactions])
+      }
     } else {
       navigate('/login')
     }
-  }, [userData])
+  }, [userData, data])
   const settings = useMemo(
     () => ({
       dots: false,
@@ -127,14 +140,22 @@ export function HomeComponent() {
       <Content>
         <Header>
           <Logo Url_Logo={logo} />
-          <button>Sair</button>
+          <button
+            onClick={() => {
+              // eslint-disable-next-line no-undef
+              localStorage.removeItem('user')
+              navigate('/login')
+            }}
+          >
+            Sair
+          </button>
         </Header>
         <InfoUser visibilityMoney={visibilityMoney}>
           <span>Olá, {data && data.name}</span>
           <span>Saldo:</span>
           <div>
             <strong>
-              R$ {visibilityMoney ? '**********' : formatCurrency(data.balance)}{' '}
+              R$ {visibilityMoney ? '**********' : formatCurrency(data.balance)}
             </strong>
             {visibilityMoney ? (
               <AiOutlineEye size={22} onClick={handleVisibilityMoney} />
@@ -192,7 +213,7 @@ export function HomeComponent() {
               </Link>
             </ContentInfoUser>
             <ContainerMoneyStatus>
-              {[...transaction].map((v, i) => {
+              {[...transaction].reverse().map((v, i) => {
                 return (
                   <MoneyStatus key={i} color={v.receiver ? 'red' : 'green'}>
                     <div>
