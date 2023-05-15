@@ -48,31 +48,35 @@ export function RegisterComponent() {
   function itsError() {
     setVisibilityCardStatus((prev) => !prev)
   }
-  const onSubmit = useCallback((data: FormData) => {
-    axios
-      .post('/register', data)
-      .then((response) => {
-        // eslint-disable-next-line no-undef
-        localStorage.removeItem('user')
-        setTextCard(`Conta criada com sucesso, seja bem vindo.`)
-        setTransition((prev) => !prev)
-        setSrcCard(Success)
-        setStatusCard('SUCESSO')
-        setFnCallbackCard(() => itsSuccess)
-        setColorCard('green')
-        setTimeout(() => {
-          setVisibilityCardStatus((prev) => !prev)
-        }, 100)
-      })
-      .catch((error) => {
-        setVisibilityCardStatus((prev) => !prev)
-        setTextCard(`Algo deu errado. ${error.response.data.message}.`)
-        setSrcCard(Error)
-        setStatusCard('FALHA')
-        setFnCallbackCard(() => itsError)
-        setColorCard('red')
-      })
+  const handleSuccess = useCallback(() => {
+    // eslint-disable-next-line no-undef
+    localStorage.removeItem('user')
+    setTextCard('Conta criada com sucesso, seja bem vindo.')
+    setTransition((prev) => !prev)
+    setSrcCard(Success)
+    setStatusCard('SUCESSO')
+    setFnCallbackCard(() => itsSuccess)
+    setColorCard('green')
+    setTimeout(() => {
+      setVisibilityCardStatus((prev) => !prev)
+    }, 100)
   }, [])
+
+  const handleError = useCallback((error: any) => {
+    setVisibilityCardStatus((prev) => !prev)
+    setTextCard(`Algo deu errado. ${error.response.data.message}.`)
+    setSrcCard(Error)
+    setStatusCard('FALHA')
+    setFnCallbackCard(() => itsError)
+    setColorCard('red')
+  }, [])
+
+  const onSubmit = useCallback(
+    (data: FormData) => {
+      axios.post('/register', data).then(handleSuccess).catch(handleError)
+    },
+    [handleSuccess, handleError],
+  )
   return (
     <Container>
       <Content>
