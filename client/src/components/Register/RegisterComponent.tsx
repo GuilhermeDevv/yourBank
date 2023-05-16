@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import { useCallback, useState } from 'react'
+import Success from '@/../public/success.svg'
+import Error from '@/../public/error.svg'
 import { Container, Content, Form, Info } from './styles'
 import { FaUser } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
 import { IoMdLock } from 'react-icons/io'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
+
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import axios from 'axios'
+import { CardStatus } from '../CardStatus/CardStatus'
 /* separator */
 
 const schema = z.object({
@@ -21,6 +25,13 @@ type FormData = z.infer<typeof schema>
 
 export function RegisterComponent() {
   const [transition, setTransition] = useState(true)
+  const [visibilityCardStatus, setVisibilityCardStatus] =
+    useState<boolean>(false)
+  const [textCard, setTextCard] = useState('')
+  const [srcCard, setSrcCard] = useState('')
+  const [colorCard, setColorCard] = useState('')
+  const [statusCard, setStatusCard] = useState('')
+  const [fnCallbackCard, setFnCallbackCard] = useState<() => void>(() => {})
   const navigate = useNavigate()
   axios.defaults.baseURL = 'http://localhost:3333/user'
   const {
@@ -30,19 +41,42 @@ export function RegisterComponent() {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
-  function onSubmit(data: FormData) {
-    axios
-      .post('/register', data)
-      .then(() => {
-        setTransition(!transition)
-        setTimeout(() => {
-          navigate('/login')
-        }, 1000)
-      })
-      .catch(() => {
-        window.location.reload()
-      })
+  function itsSuccess() {
+    setVisibilityCardStatus(false)
+    navigate('/login')
   }
+  function itsError() {
+    setVisibilityCardStatus((prev) => !prev)
+  }
+  const handleSuccess = useCallback(() => {
+    // eslint-disable-next-line no-undef
+    localStorage.removeItem('user')
+    setTextCard('Conta criada com sucesso, seja bem vindo.')
+    setTransition((prev) => !prev)
+    setSrcCard(Success)
+    setStatusCard('SUCESSO')
+    setFnCallbackCard(() => itsSuccess)
+    setColorCard('green')
+    setTimeout(() => {
+      setVisibilityCardStatus((prev) => !prev)
+    }, 100)
+  }, [])
+
+  const handleError = useCallback((error: any) => {
+    setVisibilityCardStatus((prev) => !prev)
+    setTextCard(`Algo deu errado. ${error.response.data.message}.`)
+    setSrcCard(Error)
+    setStatusCard('FALHA')
+    setFnCallbackCard(() => itsError)
+    setColorCard('red')
+  }, [])
+
+  const onSubmit = useCallback(
+    (data: FormData) => {
+      axios.post('/register', data).then(handleSuccess).catch(handleError)
+    },
+    [handleSuccess, handleError],
+  )
   return (
     <Container>
       <Content>
@@ -83,6 +117,17 @@ export function RegisterComponent() {
           </div>
           <button type="submit">CADASTRE-SE</button>
         </Form>
+        <aside>
+          {visibilityCardStatus && (
+            <CardStatus
+              text={textCard}
+              src={srcCard}
+              status={statusCard}
+              fnCallback={fnCallbackCard!}
+              cor={colorCard}
+            />
+          )}
+        </aside>
       </Content>
     </Container>
   )

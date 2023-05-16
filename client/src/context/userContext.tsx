@@ -16,6 +16,7 @@ export interface ITransactions {
 }
 
 export interface IUserData {
+  password: string
   name: string
   email: string
   balance: string
@@ -35,6 +36,7 @@ export const AuthContext = createContext<IAuthContextProps>({
     name: '',
     email: '',
     balance: '',
+    password: '',
   },
   setUserData: () => {},
   authorized: false,
@@ -48,6 +50,7 @@ const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
     name: '',
     email: '',
     balance: '',
+    password: '',
   })
   const [authorized, setAuthorized] = useState(false)
 

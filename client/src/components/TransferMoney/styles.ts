@@ -64,7 +64,6 @@ export const Form = styled.form`
       width: 280px;
 
       &::placeholder {
-        text-transform: uppercase;
         font-size: 16px;
       }
     }
