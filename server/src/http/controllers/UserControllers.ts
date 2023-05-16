@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { User } from '@prisma/client'
 
-import { PrismaUserRepository } from '@/repositories/prisma-repository'
-import { ListUserService } from '@/services/ListUserService/ListUserService'
-import { CreateUserServices } from '@/services/CreateUserServices/CreateUserServices'
-import { UpdateUserServices } from '@/services/UpdateUserServices/UpdateUserServer'
-import { TransactionUserServices } from '@/services/TransactionUserServices/TransactionUserServices'
+import { PrismaUserRepository } from 'src/repositories/prisma-repository'
+import { ListUserService } from 'src/services/ListUserService/ListUserService'
+import { CreateUserServices } from 'src/services/CreateUserServices/CreateUserServices'
+import { UpdateUserServices } from 'src/services/UpdateUserServices/UpdateUserServer'
+import { TransactionUserServices } from 'src/services/TransactionUserServices/TransactionUserServices'
 
 interface TransactionData {
   senderUserEmail: string
