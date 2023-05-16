@@ -31,7 +31,8 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 /* separator */
-axios.defaults.baseURL = 'https://your-bank.vercel.app/user'
+axios.defaults.baseURL = 'https://yourbank.vercel.app/user'
+
 export function LoginComponent() {
   const { setAuthorized, setUserData } = useContext(AuthContext)
   const [animation, setAnimation] = useState(true)

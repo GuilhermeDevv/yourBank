@@ -48,9 +48,10 @@ export function ConfigAccount({
   function isSuccess() {
     fnVisibilityConfigAccount(false)
   }
+
   function onSubmit({ password }: FormData) {
     axios
-      .put('https://your-bank.vercel.app/user/update', {
+      .put('https://yourbank.vercel.app/user/update', {
         email: userData.email,
         password,
       })
