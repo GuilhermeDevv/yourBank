@@ -10,7 +10,7 @@
     "start:dev": "tsx watch src/server.ts",
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src --out-dir build && cp -r prisma build/"
+    "build": "npm install && tsc && cp -r prisma build/"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "bcrypt": "5.1.0",
     "dotenv": "16.0.3",
     "fastify": "4.15.0",
+    "tsc": "2.0.4",
     "tsup": "6.7.0",
     "zod": "3.21.4"
   },
