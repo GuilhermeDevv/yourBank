@@ -49,7 +49,6 @@ export function ConfigAccount({
     fnVisibilityConfigAccount(false)
   }
   function onSubmit({ password }: FormData) {
-    console.log({ email: userData.email, password })
     axios
       .put('https://your-bank.vercel.app/user/update', {
         email: userData.email,
@@ -64,13 +63,13 @@ export function ConfigAccount({
         setFnCallbackCard(() => isSuccess)
       })
       .catch((err) => {
-        console.log(err)
         setTextCard(err.message)
         setSrcCard(Error)
         setColorCard('red')
         setStatusCard('FALHA')
         setVisibilityCardStatus(true)
         setFnCallbackCard(() => isSuccess)
+        console.log(err)
       })
   }
   return (
