@@ -1,4 +1,4 @@
-import IUserRepository from 'src/repositories/IUserRepository'
+import IUserRepository from '../../repositories/IUserRepository'
 
 export class TransactionUserServices {
   constructor(private repository: IUserRepository) {}

@@ -1,5 +1,5 @@
-import IUserRepository from 'src/repositories/IUserRepository'
-import { z } from 'zod'
+import IUserRepository from '../../repositories/IUserRepository'
+import * as z from 'zod'
 
 export class CreateUserServices {
   constructor(private repository: IUserRepository) {}
@@ -12,8 +12,9 @@ export class CreateUserServices {
       name: z.string(),
     })
     const responseValidate = schemaUser.safeParse(data)
+
     if (!responseValidate.success) {
-      return { message: `${responseValidate.error.formErrors}`, status: 400 }
+      return { error: `erro, schema nao valido`, status: 400 }
     }
     const response = await this.repository.findByEmail(email)
     if (response) {
