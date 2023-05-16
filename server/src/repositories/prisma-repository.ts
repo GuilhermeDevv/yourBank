@@ -1,4 +1,4 @@
-import { prisma } from 'src/lib/Prisma'
+import { prisma } from '../lib/Prisma'
 import { User } from '@prisma/client'
 import IUserRepository from './IUserRepository'
 export interface IUpdate {
