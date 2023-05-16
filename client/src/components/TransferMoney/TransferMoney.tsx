@@ -51,7 +51,7 @@ export function TransferMoney({
   function onSubmit({ email, amount }: FormData) {
     if (userData.email !== email) {
       axios
-        .post('http://localhost:3333/user/transactions', {
+        .post('https://your-bank.vercel.app/user/transactions', {
           senderUserEmail: userData.email,
           receiverUserEmail: email,
           amount,
@@ -74,7 +74,7 @@ export function TransferMoney({
         })
         .finally(() => {
           axios
-            .post('http://localhost:3333/user/login', {
+            .post('https://your-bank.vercel.app/user/login', {
               email: userData.email,
               password: userData.password,
             })

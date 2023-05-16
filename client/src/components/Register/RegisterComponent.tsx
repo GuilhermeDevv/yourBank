@@ -33,7 +33,7 @@ export function RegisterComponent() {
   const [statusCard, setStatusCard] = useState('')
   const [fnCallbackCard, setFnCallbackCard] = useState<() => void>(() => {})
   const navigate = useNavigate()
-  axios.defaults.baseURL = 'http://localhost:3333/user'
+
   const {
     register,
     handleSubmit,
@@ -73,7 +73,10 @@ export function RegisterComponent() {
 
   const onSubmit = useCallback(
     (data: FormData) => {
-      axios.post('/register', data).then(handleSuccess).catch(handleError)
+      axios
+        .post('https://your-bank.vercel.app/user/register', data)
+        .then(handleSuccess)
+        .catch(handleError)
     },
     [handleSuccess, handleError],
   )
