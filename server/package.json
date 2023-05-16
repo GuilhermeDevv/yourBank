@@ -9,8 +9,8 @@
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
     "dev": "tsx watch src/server.ts",
-    "start": "ts-node ./src/server.js",
-    "build": "npm install && tsc"
+    "start": "ts-node src/server.ts",
+    "build": "npm install && tsc && npx prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
