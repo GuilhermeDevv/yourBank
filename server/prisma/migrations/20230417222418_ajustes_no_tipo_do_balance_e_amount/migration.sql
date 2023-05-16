@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Transaction" ALTER COLUMN "amount" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "balance" SET DEFAULT '0',
+ALTER COLUMN "balance" SET DATA TYPE TEXT;
