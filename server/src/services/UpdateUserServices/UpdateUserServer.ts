@@ -1,4 +1,4 @@
-import IUserRepository from '@/repositories/IUserRepository'
+import IUserRepository from 'src/repositories/IUserRepository'
 import { User } from '@prisma/client'
 export class UpdateUserServices {
   constructor(private repository: IUserRepository) {}
