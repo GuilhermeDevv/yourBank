@@ -31,7 +31,6 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 /* separator */
-axios.defaults.baseURL = 'https://yourbank.vercel.app/user'
 
 export function LoginComponent() {
   const { setAuthorized, setUserData } = useContext(AuthContext)
@@ -55,7 +54,7 @@ export function LoginComponent() {
   const onSubmit = useCallback(
     (data: FormData) => {
       axios
-        .post('/login', data)
+        .post('https://yourbank.vercel.app/user/login', data)
         .then((response) => {
           setAuthorized((prev) => !prev)
           setUserData(response.data.message)
