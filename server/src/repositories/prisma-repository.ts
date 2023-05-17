@@ -56,7 +56,6 @@ export class PrismaUserRepository implements IUserRepository {
       data,
       where: { email },
     })
-
     return response.count !== 0
   }
 
