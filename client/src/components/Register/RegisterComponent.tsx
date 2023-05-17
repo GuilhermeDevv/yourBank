@@ -64,7 +64,7 @@ export function RegisterComponent() {
 
   const handleError = useCallback((error: any) => {
     setVisibilityCardStatus((prev) => !prev)
-    setTextCard(`Algo deu errado. ${error.response.data.message}.`)
+    setTextCard(`Algo deu errado. ${error.response.message}.`)
     setSrcCard(Error)
     setStatusCard('FALHA')
     setFnCallbackCard(() => itsError)
