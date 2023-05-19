@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
-import Success from '@/../public/success.svg'
-import Error from '@/../public/error.svg'
+import Success from '@/assets/success.svg'
+import Error from '@/assets/error.svg'
 import { Container, Content, Form, Info } from './styles'
 import { FaUser } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
@@ -74,7 +74,7 @@ export function RegisterComponent() {
   const onSubmit = useCallback(
     (data: FormData) => {
       axios
-        .post('https://yourbank.vercel.app/user/register', data)
+        .post('https://apiyourbank.onrender.com/user/register', data)
         .then(handleSuccess)
         .catch(handleError)
     },

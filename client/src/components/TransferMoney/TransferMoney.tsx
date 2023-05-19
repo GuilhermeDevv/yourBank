@@ -7,9 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { BsPersonCircle } from 'react-icons/bs'
-import Success from '@/../public/success.svg'
-import Error from '@/../public/error.svg'
-import Warning from '@/../public/warning.svg'
+import Success from '@/assets/success.svg'
+import Error from '@/assets/error.svg'
+import Warning from '@/assets/warning.svg'
 import { CardStatus } from '../CardStatus/CardStatus'
 type ConfigTransferProps = {
   visibilityTransferMoney: (v: boolean) => void
@@ -51,7 +51,7 @@ export function TransferMoney({
   function onSubmit({ email, amount }: FormData) {
     if (userData.email !== email) {
       axios
-        .post('https://your-bank.vercel.app/user/transactions', {
+        .post('https://apiyourbank.onrender.com/user/transactions', {
           senderUserEmail: userData.email,
           receiverUserEmail: email,
           amount,
@@ -74,7 +74,7 @@ export function TransferMoney({
         })
         .finally(() => {
           axios
-            .post('https://your-bank.vercel.app/user/login', {
+            .post('https://apiyourbank.onrender.com/user/login', {
               email: userData.email,
               password: userData.password,
             })

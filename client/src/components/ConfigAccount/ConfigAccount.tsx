@@ -8,8 +8,8 @@ import axios from 'axios'
 import { AuthContext } from '@/context/userContext'
 import { useContext, useState } from 'react'
 import { CardStatus } from '../CardStatus/CardStatus'
-import Success from '@/../public/success.svg'
-import Error from '@/../public/error.svg'
+import Success from '@/assets/success.svg'
+import Error from '@/assets/error.svg'
 
 type ConfigAccountProps = {
   fnVisibilityConfigAccount: (v: boolean) => void
@@ -49,29 +49,28 @@ export function ConfigAccount({
     fnVisibilityConfigAccount(false)
   }
 
-  function onSubmit({ password }: FormData) {
-    axios
-      .put('https://yourbank.vercel.app/user/update', {
+  async function onSubmit({ password }: FormData) {
+    try {
+      await axios.put('https://apiyourbank.onrender.com/user/update', {
         email: userData.email,
         password,
       })
-      .then(() => {
-        setTextCard('Senha alterada com sucesso.')
-        setSrcCard(Success)
-        setColorCard('green')
-        setStatusCard('SUCESSO')
-        setVisibilityCardStatus(true)
-        setFnCallbackCard(() => isSuccess)
-      })
-      .catch((err) => {
-        setTextCard(err.message)
-        setSrcCard(Error)
-        setColorCard('red')
-        setStatusCard('FALHA')
-        setVisibilityCardStatus(true)
-        setFnCallbackCard(() => isSuccess)
-        console.log(err)
-      })
+
+      setTextCard('Senha alterada com sucesso.')
+      setSrcCard(Success)
+      setColorCard('green')
+      setStatusCard('SUCESSO')
+      setVisibilityCardStatus(true)
+      setFnCallbackCard(() => isSuccess)
+    } catch (err: any) {
+      setTextCard(err.message)
+      setSrcCard(Error)
+      setColorCard('red')
+      setStatusCard('FALHA')
+      setVisibilityCardStatus(true)
+      setFnCallbackCard(() => isSuccess)
+      console.log(err)
+    }
   }
   return (
     <Container>
