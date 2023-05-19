@@ -74,7 +74,7 @@ export function RegisterComponent() {
   const onSubmit = useCallback(
     (data: FormData) => {
       axios
-        .post('https://yourbank.vercel.app/user/register', data)
+        .post('https://apiyourbank.onrender.com/user/register', data)
         .then(handleSuccess)
         .catch(handleError)
     },

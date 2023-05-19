@@ -54,7 +54,7 @@ export function LoginComponent() {
   const onSubmit = useCallback(
     (data: FormData) => {
       axios
-        .post('https://yourbank.vercel.app/user/login', data)
+        .post('https://apiyourbank.onrender.com/user/login', data)
         .then((response) => {
           setAuthorized((prev) => !prev)
           setUserData(response.data.message)
