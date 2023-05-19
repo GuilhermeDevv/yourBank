@@ -18,8 +18,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { AuthContext } from '@/context/userContext'
 import { CardStatus } from '../CardStatus/CardStatus'
-import Success from '@/../public/success.svg'
-import Error from '@/../public/error.svg'
+import Success from '@/assets/success.svg'
+import Error from '@/assets/error.svg'
 
 /* separator */
 

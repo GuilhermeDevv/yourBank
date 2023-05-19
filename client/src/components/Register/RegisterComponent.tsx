@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
-import Success from '@/../public/success.svg'
-import Error from '@/../public/error.svg'
+import Success from '@/assets/success.svg'
+import Error from '@/assets/error.svg'
 import { Container, Content, Form, Info } from './styles'
 import { FaUser } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
