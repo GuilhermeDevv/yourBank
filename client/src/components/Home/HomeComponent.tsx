@@ -70,9 +70,6 @@ export function HomeComponent() {
         // @ts-ignore
         setTransaction([...sentTransactions, ...receivedTransactions])
       }
-      setTimeout(() => {
-        setDisplayMenu(true)
-      }, 1200)
     } else if (userLocalStorage) {
       setData(userLocalStorage)
       setUserData(userLocalStorage)
@@ -133,6 +130,7 @@ export function HomeComponent() {
 
   const handleMenu = useCallback(() => {
     setMenu((prev) => !prev)
+    setDisplayMenu(true)
   }, [])
 
   return (
